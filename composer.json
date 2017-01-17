@@ -1,0 +1,14 @@
+{
+    "name": "vendor/gamepus",
+    "description": "Description of project Gamepus.",
+    "authors": [
+        {
+            "name": "Dennis Meyer",
+            "email": "snooops84@gmail.com"
+        }
+    ],
+    "require": {
+        "bcosca/fatfree": "3.6.0",
+        "fkubis/teamspeak-php-framework": "dev-master"
+    }
+}

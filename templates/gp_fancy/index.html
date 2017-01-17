@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>{{ @title }}</title>
+        <link rel="stylesheet"
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <include href="{{ @my_template_path.'/header.html' }}" />
+        <p>Hello, world</p>
+        <p>{{ @buddy[0] }}, {{ @buddy[1] }}, and {{ @buddy[2] }}</p>
+        
+        
+        <check if="{{ @loggedin=="true" }}">
+            <true></true>
+            <false>
+            <div id="">
+                
+            </div>
+            </false>               
+        </check>
+    </body>
+</html>
