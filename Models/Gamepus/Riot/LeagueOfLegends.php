@@ -11,7 +11,7 @@
  *
  * @author Snooops
  */
-namespace Gampus\Riot;
+namespace Gamepus\Riot;
 
 class LeagueOfLegends extends Riot implements \Gamepus\Game {
    
@@ -47,24 +47,52 @@ class LeagueOfLegends extends Riot implements \Gamepus\Game {
         return $this->TeamspeakGroupMap;
     }
     
+    /**
+     * 
+     * @param type $playerId
+     * @return type
+     */
+    private function getPlayerData($playerId) {
+        $DbRows = $this->Db->exec('SELECT server, summonerName FROM gameLeagueOfLegends WHERE playerId = '.$playerId);
+        return $DbRows[0];
+    }
     
     /**
      * 
-     * @param type $SummonerName
+     * @param type $server
+     * @param type $call
+     * @return type
+     */
+    private function makeAPICall($server, $call) {
+        return json_decode(file_get_contents('https://'.$server.'.api.pvp.net/api/lol/'.$server.'/'.$call.'?api_key='.$this->API_Key));
+    }
+    
+    
+    /**
+     * 
+     * @param type $playerId
      * @return type \Gamepus\Rank::createRankData($rank, $tsgroup)
      */
-    public function getPlayerRank($SummonerName){
+    public function getPlayerRank($playerId){
+        $playerData = $this->getPlayerData($playerId);
         
+        $lolData = array();
         # fetching json data from leagueoflegends API
-        $overwatch_data = json_decode(file_get_contents('https://na.api.pvp.net/api/lol/euw/v1.4/summoner/by-name/'.$SummonerName.'?api_key='.$this->API_Key));
+        $lolPlayerData = $this->makeAPICall($playerData['server'], 'v1.4/summoner/by-name/'.rawurlencode($playerData['summonerName']));
         
-        foreach ($this->TeamspeakGroupMap as $rank => $tsgroupId ) {
-
-            if ($overwatch_data->data->competitive->rank >= $rank) {
-                $new_tsgroupId = $tsgroupId;
-            }
+        foreach ($lolPlayerData as $data) {
+            $lolId = $data->id;
         }
-
-        return \Gamepus\Rank::createRankData($overwatch_data->data->competitive->rank, $new_tsgroupId);
+        
+                
+        $lolRankData = array();
+        $lolRankData = $this->makeAPICall($playerData['server'], 'v2.5/league/by-summoner/'.$lolId.'/entry');
+        var_dump($lolRankData);
+        foreach ($lolRankData as $data) {
+            $lolRank = $data[0]->tier;
+            echo 'LolRank: '.$lolRank;
+        }
+        
+        return \Gamepus\Rank::createRankData($lolRank, $this->TeamspeakGroupMap[$lolRank]);
     }
 }

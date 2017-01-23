@@ -33,21 +33,30 @@ class Player {
         $this->ts3id = $ts3id;
     }
 
-    
+    /**
+     * 
+     */
     public function getInfo(){
         
     }
     
+    /**
+     * 
+     * @return type
+     */
+    public function tsid() {
+        return $this->ts3id;
+    }
     
     /**
      * 
      * @return type
      */
     public function games() {
-        $dbGames = $this->Db->exec('SELECT * FROM playerAttributes LEFT JOIN games ON games.gameId = playerAttributes.gameId WHERE playerId = '.$this->PlayerId);
+        $dbGames = $this->Db->exec('SELECT games.gameId, games.gameName, games.gameVendor FROM player2games LEFT JOIN games ON games.gameId = player2games.gameId WHERE playerId = '.$this->PlayerId);
         foreach ($dbGames as $dbGame){
-            $this->Games[$dbGame['gameVendor']][$dbGame['gameId']]['gameName'] = $dbGame['gameName'];
-            $this->Games[$dbGame['gameVendor']][$dbGame['gameId']]['playerName'] = $dbGame['value'];
+            $this->Games[$dbGame['gameVendor']]['gameName'] = $dbGame['gameName'];
+            $this->Games[$dbGame['gameVendor']]['gameId'] = $dbGame['gameId'];
         }
         return $this->Games;
     }

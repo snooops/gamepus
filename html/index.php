@@ -1,29 +1,30 @@
 <?php
 $f3 = require('../vendor/bcosca/fatfree/lib/base.php');
-
-
-$CONF_DB_HOST = 'localhost';
-$CONF_DB_USER = 'development';
-$CONF_DB_PASS = 'ieXahngae7hia4iSa1oizain';
-$CONF_DB_DB = 'development';
-$CONF_TEMPLATE = 'gp_fancy';
-
-$f3->set('CACHE','memcache=localhost');
-
-
-$f3->set('AUTOLOAD',array('../Controller/'));
-$f3->set('my_template_path', '../templates/'.$CONF_TEMPLATE);
-
-
-
-
 $f3->clear('CACHE');
 
-new Session();
+require('../config.php');
 
-// instanciate global database connection
-$Db = new \DB\SQL('mysql:host=localhost;port=3306;dbname=development','development','ieXahngae7hia4iSa1oizain');
+
+$f3->set('CONF_LOL_API_KEY', $CONF_LOL_API_KEY);
+$f3->set('CACHE','memcache=localhost');
+$f3->set('AUTOLOAD','../Controller/;../Models/');
+
+// initialzing Database connection
+$Db = new \DB\SQL('mysql:host='.$CONF_DB_HOST.';port='.$CONF_DB_PORT.';dbname='.$CONF_DB_DB, $CONF_DB_USER, $CONF_DB_PASS);
 $f3->set('Db', $Db);
+
+$Log = new \Helper\Log('mysql');
+$Log->setupChannelMySQL($Db);
+
+$f3->set('Log',$Log);
+
+// initializing Teamspeak3 connection
+//require('../vendor/fkubis/teamspeak-php-framework/TeamSpeak3/TeamSpeak3.php');
+$tslogin = sprintf('serverquery://%s:%s@%s/?server_port=%u', $CONF_TS3_USER, $CONF_TS3_PASS, $CONF_TS3_ADDRESS, $CONF_TS3_VSERVERPORT, $CONF_TS3_VSERVERPORT);
+$TS3 = \TeamSpeak3\TeamSpeak3::factory($tslogin);
+$MyTeamSpeak = new Gamepus\MyTeamSpeak($TS3);
+
+$f3->set('MyTeamSpeak', $MyTeamSpeak);
 
 
 
@@ -44,13 +45,6 @@ $f3->route('GET|HEAD|POST /Login',
 );
 
 
-/*
-$f3->route('POST /Logout',
-    function (){
-        Login::logout();
-    }
-);
-*/
 $f3->set('title','Gamepus');
 $f3->route('GET /',
     function ($f3){
@@ -62,21 +56,3 @@ $f3->route('GET /',
 
 
 $f3->run();
-
-
-/*
-$player = new Player;
-
-
-foreach ($player->getGames() as $game) {
-    
-    try{
-        $GameId = new GameId($Player);
-        $gameObject = new $game;
-        $gameObject->setGameId($GameId);
-        $rank = $gameObject->getRank();
-    }
-    catch (Exception $e) {
-        echo 'Unkown Game detected!',  $e->getMessage(), "\n";
-    }
-}*/

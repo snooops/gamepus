@@ -43,21 +43,32 @@ class Overwatch extends Blizzard implements \Gamepus\Game {
     public function getTeamSpeakGroupMap() {
         return $this->TeamspeakGroupMap;
     }
+    
+    
+    /**
+     * 
+     * @param type $playerId
+     * @return type
+     */
+    private function getPlayerData($playerId) {
+        $DbRows = $this->Db->exec('SELECT battletag FROM gameOverwatch WHERE playerId = '.$playerId);
+        return $DbRows[0]['battletag'];
+    }
+    
+    
     /**
      * 
      * @param type $Battletag
      * @return type \Gamepus\Rank::createRankData($rank, $tsgroup)
      */
-    public function getPlayerRank($Battletag){
+    public function getPlayerRank($playerId){
+        $battletag = str_replace('#', '-', $this->getPlayerData($playerId));
         
-        # preparing request data
-        $BattletagReqReady = str_replace('#', '-', $Battletag);
-
         # fetching json data from overwatch API
-        $overwatch_data = json_decode(file_get_contents('https://api.lootbox.eu/pc/eu/'. $BattletagReqReady .'/profile'));
+        $overwatch_data = json_decode(file_get_contents('https://api.lootbox.eu/pc/eu/'. $battletag .'/profile'));
+        
         
         foreach ($this->TeamspeakGroupMap as $rank => $tsgroupId ) {
-
             if ($overwatch_data->data->competitive->rank >= $rank) {
                 $new_tsgroupId = $tsgroupId;
             }

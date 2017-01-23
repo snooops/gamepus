@@ -9,28 +9,21 @@
 $f3 = require('../vendor/bcosca/fatfree/lib/base.php');
 $f3->clear('CACHE');
 
-$CONF_DB_HOST = 'localhost';
-$CONF_DB_USER = 'development';
-$CONF_DB_PASS = 'ieXahngae7hia4iSa1oizain';
-$CONF_DB_DB = 'development';
-$CONF_TEMPLATE = 'gp_fancy';
+require('../config.php');
 
-$CONF_TS3_USER = 'serveradmin';
-$CONF_TS3_PASS = 'HWOdvhjd';
-$CONF_TS3_ADDRESS = '127.0.0.1:10011';
-$CONF_TS3_VSERVERPORT = '9987';
-
-$CONF_LOL_API_KEY = 'RGAPI-21285bd8-a56a-4d14-bd44-512089b296ac';
 
 $f3->set('CONF_LOL_API_KEY', $CONF_LOL_API_KEY);
-
 $f3->set('CACHE','memcache=localhost');
-
 $f3->set('AUTOLOAD','../Controller/;../Models/');
 
 // initialzing Database connection
-$Db = new \DB\SQL('mysql:host=localhost;port=3306;dbname=development','development','ieXahngae7hia4iSa1oizain');
+$Db = new \DB\SQL('mysql:host='.$CONF_DB_HOST.';port='.$CONF_DB_PORT.';dbname='.$CONF_DB_DB, $CONF_DB_USER, $CONF_DB_PASS);
 $f3->set('Db', $Db);
+
+$Log = new \Helper\Log('mysql');
+$Log->setupChannelMySQL($Db);
+
+$f3->set('Log',$Log);
 
 // initializing Teamspeak3 connection
 //require('../vendor/fkubis/teamspeak-php-framework/TeamSpeak3/TeamSpeak3.php');
@@ -46,33 +39,38 @@ $f3->route('GET /cron/synchronizePlayers',
         
         $DB =           $f3->get('Db');
         $MyTeamSpeak =  $f3->get('MyTeamSpeak');
+        $Log =          $f3->get('Log');
         
         // fetch all players of our database
         foreach($DB->exec('SELECT id, ts3id FROM players ORDER by id DESC') as $DbPlayer) {
             $player = new Gamepus\Player($DbPlayer['id'], $DbPlayer['ts3id'], $DB);
             
             foreach ($player->games() as $vendor => $games) {
+                $gameName = $games['gameName'];
+                $gameId =   $games['gameId'];
                 
-               foreach ($games as $gameId => $gameAttribute){
-                   
-                    switch ($gameAttribute['gameName']) {
+                switch ($gameName) {
                         
-                        case 'Overwatch':
-                            $game = new Gamepus\Blizzard\Overwatch($DB, $gameId);
-                        break;
-                    
-                        case 'LeagueOfLegends':
-                            $game = new Gamepus\Riot\LeagueOfLegends($DB, $gameId, $f3->get('CONF_LOL_API_KEY'));
-                        break;
-                    }
-                   
-                    $ranks = $game->getPlayerRank($gameAttribute['playerName']);
-                    $teamspeakGroupMap = $game->getTeamSpeakGroupMap();
-                    
-                    // $overwatch_ranks war nicht gesetzt, daraufhin kam dieser fehler: 
-                    // in_array() expects parameter 2 to be array, null given
+                    case 'Overwatch':
+                        $game = new Gamepus\Blizzard\Overwatch($DB, $gameId);
+                    break;
+
+                    case 'LeagueOfLegends':
+                        $game = new Gamepus\Riot\LeagueOfLegends($DB, $gameId, $f3->get('CONF_LOL_API_KEY'));
+                    break;
+                }
+
+                $ranks = $game->getPlayerRank($DbPlayer['id']);
+                $teamspeakGroupMap = $game->getTeamSpeakGroupMap();
+
+                // $overwatch_ranks war nicht gesetzt, daraufhin kam dieser fehler: 
+                // in_array() expects parameter 2 to be array, null given
+                try{
                     $MyTeamSpeak->assignServerGroup($DbPlayer['ts3id'], $ranks->newTeamSpeakGroupId, $teamspeakGroupMap);
-               }
+                }
+                catch (Exception $e){
+                    $Log->message('Client nicht Online:'. $player->tsid().'\nException: '.$e);
+                }
                
             }
             
