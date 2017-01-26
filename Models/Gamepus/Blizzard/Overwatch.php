@@ -50,7 +50,7 @@ class Overwatch extends Blizzard implements \Gamepus\Game {
      * @param type $playerId
      * @return type
      */
-    private function getPlayerData($playerId) {
+    public function getPlayerData($playerId) {
         $DbRows = $this->Db->exec('SELECT battletag FROM gameOverwatch WHERE playerId = '.$playerId);
         return $DbRows[0]['battletag'];
     }

@@ -1,0 +1,26 @@
+<form action="/Games/LoL" method="POST" data-toggle="validator">
+    <div class="form-group">
+        <label for="summonerName">Summoner Name</label>
+        <input type="text" class="form-control" id="summonerName" name="summonerName" value="{{ @LoLData['summonerName'] }}" placeholder="Enter your Summoner Name to setup League of Legends">
+    </div>
+    <div class="form-group">
+        <label for="server">Server (Region)</label>
+        <select name="server" id="server" class="form-control">
+            <option value="euw" {{ @euwactive }} >EU West</option>
+            <option value="eune" {{ @euneactive }} >EU Nordic & East</option>
+            <option value="na" {{ @naactive }} >North America</option>
+            <option value="lan" {{ @lanactive }} >Latin America North</option>
+            <option value="las" {{ @lasactive }} >Latin America South</option>
+            <option value="br" {{ @bractive }} >Brazil</option>
+            <option value="tr" {{ @tractive }} >Turkey</option>
+            <option value="ru" {{ @ruactive }} >Russia</option>
+            <option value="oce" {{ @oceactive }} >Oceania</option>
+            <option value="jp" {{ @jpactive }} >Japan</option>
+            <option value="kr" {{ @kractive }} >Korea</option>           
+        </select>
+    </div>
+    <div class="form-group"> 
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</form>
+<script src="js/bootstrap.validator.min.js"></script>

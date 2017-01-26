@@ -52,7 +52,7 @@ class LeagueOfLegends extends Riot implements \Gamepus\Game {
      * @param type $playerId
      * @return type
      */
-    private function getPlayerData($playerId) {
+    public function getPlayerData($playerId) {
         $DbRows = $this->Db->exec('SELECT server, summonerName FROM gameLeagueOfLegends WHERE playerId = '.$playerId);
         return $DbRows[0];
     }

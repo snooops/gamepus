@@ -1,0 +1,79 @@
+    <h1>Your Profile  <em>{{ @SESSION.username }}</em></h1>
+        
+    
+    <div class="container container-row panel panel-default">
+        <h2>Edit user profile</h2>
+        <check if="{{ @SESSION.usersave=='false' }}">
+            <true>
+                <div class="alert alert-danger">
+                    <strong>Error!</strong> It seems your E-Mailaddress is already taken, sorry! Please take another one ;)
+                </div>
+            </true>
+        </check>
+        <form class="form-horizontal" action="/UserSave" method="POST" data-toggle="validator">
+            <div class="form-group">
+                <label class="control-label col-sm-3" for="email">E-Mail:</label>
+                <div class="col-sm-5">
+                    <input type="email" class="form-control" id="email" placeholder="Enter your E-Mail address here" value="{{ @SESSION.email }}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-3" for="inputPassword">Password:</label>
+                <div class="col-sm-5"> 
+                    <input type="password" class="form-control" id="inputPassword" placeholder="Enter password if you want to change it, or leave it blank if you dont">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-3" for="inputPasswordConfirm"></label>
+                <div class="col-sm-5"> 
+                    <input type="password" class="form-control" placeholder="Confirm password" id="inputPasswordConfirm" data-match="#inputPassword" data-match-error="Whoops, these don't match" placeholder="Confirm">
+                    <div class="help-block with-errors"></div>
+                </div>
+            </div>
+
+
+            <div class="form-group"> 
+                <div class="col-sm-offset-3 col-sm-3">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </form>
+        <script src="js/bootstrap.validator.min.js"></script>
+    </div>
+    
+    
+    
+    <div class="container container-row panel panel-default">
+        <h2>Edit player profile</h2>
+        <check if="{{ @SESSION.profilesaveerror=='true' }}">
+            <true>
+                <div class="alert alert-danger">
+                    <strong>Error!</strong> It seems your TeamSpeak Identity is already taken, sorry! Please take another one ;)
+                </div>
+            </true>
+        </check>
+
+        <check if="{{ @SESSION.profilesaveok=='true' }}">
+            <true>
+                <div class="alert alert-success">
+                    <strong>Success!</strong> Your player profile is updated. Maybe you want to checkout your <a href="/Games">games</a>?.
+                </div>
+            </true>
+        </check>
+
+        <form class="form-horizontal" action="/PlayerSave" method="POST" data-toggle="validator">
+            <div class="form-group">
+                <label class="control-label col-sm-3" for="ts3id">Your Teamspeak Identitiy:</label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control" id="ts3id" name="ts3id" placeholder="This is needed to autoassign the TeamSpeak groups" value="{{ @SESSION.ts3id }}">
+                </div>
+            </div>       
+
+            <div class="form-group"> 
+                <div class="col-sm-offset-3 col-sm-3">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </form>
+        <script src="js/bootstrap.validator.min.js"></script>
+    </div>

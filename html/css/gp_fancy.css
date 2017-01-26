@@ -1,0 +1,67 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Jan 24, 2017, 8:58:25 AM
+    Author     : Snooops
+*/
+
+body{
+    margin:0;
+    padding:0;
+    font-family: 'Titillium Web', sans-serif;
+}
+
+div#topbar{
+    width: 100%;
+    height: 90px;
+    background-color: #454545;
+    color: #FFFFFF;
+    border-bottom: 1px solid orange;
+}
+
+div#gamepus {
+    float: left;
+}
+
+div#gamepus h1 {
+    padding-left: 15px;
+    padding-right: 15px;
+    font-size: 20pt;
+}
+
+div#topbarnav {
+    float: left;
+}
+
+div#topbarnav li {
+   float: left; 
+   list-style-type: none;
+   margin-left: 15px;
+}
+
+div#topbarnav li.last{
+    clear: both;
+} 
+
+div#topbarnav li a {
+    color: #FFFFFF;
+    text-decoration: none;
+    font-size: 16pt;
+}
+div#topbarnav li a span.firstLetter{
+    font-size: 20pt;
+}
+
+div#topbarprofile {
+    float: right;
+    margin-top: 15px;
+    margin-right: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+    height: 60px;
+    background-color: #006699;
+    border: 1px solid white;
+}

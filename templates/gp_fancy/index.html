@@ -1,29 +1,23 @@
-<!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<html>
-    <head>
-        <title>{{ @title }}</title>
-        <link rel="stylesheet"
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <include href="{{ @my_template_path.'/header.html' }}" />
-        <p>Hello, world</p>
-        <p>{{ @buddy[0] }}, {{ @buddy[1] }}, and {{ @buddy[2] }}</p>
-        
-        
-        <check if="{{ @loggedin=="true" }}">
-            <true></true>
-            <false>
-            <div id="">
-                
-            </div>
-            </false>               
-        </check>
-    </body>
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Gamepus</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+    
+    <check if="{{ @SESSION.userId > 0 }}">
+        <true>
+            <include href="../templates/gp_fancy/header.html" />
+        </true>
+    </check>
+
+    <div class="container-fluid" style="margin-top:100px;">
+        <include href="{{ @page_display }}" />
+    </div>
+</body>
 </html>

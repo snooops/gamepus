@@ -1,0 +1,45 @@
+ <div class="container" style="max-width: 500px;">
+    <div class="panel panel-default">
+        <div class="panel-body">
+    <h1>Gamepus Register</h1>
+    <p>To register yourself we need some data of you. We dont save passwords in cleartext, Gamepus only stores md5 hashed passwords. Why we are telling you this in public? Dudes, this is opensource you can see it anyway in the code!</p> 
+    <div class="alert alert-info">With your registration you agree to receive informational emails from Gamepus, for example about new features or upcoming events.</div>
+    <check if="{{ @registerok=='false' }}">
+        <true>
+            <div class="alert alert-danger">
+                <strong>Error!</strong> It seems your Username is already taken, sorry! Please take another one ;)
+            </div>
+        </true>
+    </check>
+
+    <form action="/Register" method="POST" data-toggle="validator">
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" class="form-control" id="username" name="username">
+        </div>
+        
+        <div class="form-group">
+            <label for="email">E-Mail:</label>
+            <input type="email" class="form-control" id="email" name="email">
+        </div>
+        
+        <div class="form-group">
+            <label for="inputPassword" class="control-label">Password</label>
+            <div class="form-inline row">
+                <div class="form-group col-sm-6">
+                    <input type="password" data-minlength="8" class="form-control" id="inputPassword" placeholder="Password" name="password" required>
+                    <div class="help-block">Minimum of 8 characters</div>
+                </div>
+                <div class="form-group col-sm-6">
+                    <input type="password" class="form-control" id="inputPasswordConfirm" data-match="#inputPassword" data-match-error="Whoops, these don't match" placeholder="Confirm" required>
+                    <div class="help-block with-errors"></div>
+                </div>
+            </div>
+          </div>
+        
+        <button type="submit" class="btn btn-primary">Register</button> <a href="/">Return to login page</a>.
+    </form>
+     </div>
+   </div>
+</div>
+<script src="js/bootstrap.validator.min.js"></script>

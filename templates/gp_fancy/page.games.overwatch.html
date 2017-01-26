@@ -1,0 +1,35 @@
+<form action="/Games/Overwatch" method="POST" data-toggle="validator">
+    <check if="{{ @SESSION.Overwatch_update=='true' }}">
+         <true>
+            <div class="alert alert-success">
+                <strong>Success!</strong> Your game information was updated.
+            </div>
+        </true>
+    </check>
+    
+    <check if="{{ @SESSION.Overwatch_insert=='true' }}">
+         <true>
+            <div class="alert alert-success">
+                <strong>Success!</strong> Your game information was created.
+            </div>
+        </true>
+    </check>
+    
+    <check if="{{ @SESSION.Overwatch_delete=='true' }}">
+         <true>
+            <div class="alert alert-success">
+                <strong>Success!</strong> Your game information was deleted.
+            </div>
+        </true>
+    </check>
+    
+    
+    <div class="form-group">
+        <label for="battletag">Battletag</label>
+        <input type="text" class="form-control" id="battletag" name="battletag" value="{{ @battletag }}" placeholder="Enter your Battletag to setup Overwatch">
+    </div>
+    <div class="form-group"> 
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</form>
+<script src="js/bootstrap.validator.min.js"></script>

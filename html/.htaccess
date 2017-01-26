@@ -1,5 +1,8 @@
+RewriteRule /?\.htaccess$ - [F,L]
+RewriteRule /?\cron.php$ - [F,L]
 
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^ index.php [QSA,L]
+
