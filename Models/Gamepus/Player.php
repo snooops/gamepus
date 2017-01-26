@@ -53,7 +53,7 @@ class Player {
      * @return type
      */
     public function games() {
-        $dbGames = $this->Db->exec('SELECT games.gameId, games.gameName, games.gameVendor FROM player2games LEFT JOIN games ON games.gameId = player2games.gameId WHERE playerId = '.$this->PlayerId);
+        $dbGames = $this->Db->exec('SELECT games.gameId, games.gameName, games.gameVendor FROM games');
         foreach ($dbGames as $dbGame){
             $this->Games[$dbGame['gameVendor']]['gameName'] = $dbGame['gameName'];
             $this->Games[$dbGame['gameVendor']]['gameId'] = $dbGame['gameId'];
