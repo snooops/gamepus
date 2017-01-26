@@ -2,3 +2,4 @@
 /.vagrant/
 /ssh vagrant developement.lnk
 /config.php
+/composer.lock
