@@ -51,11 +51,17 @@ $f3->route('GET /cron/synchronizePlayers',
                 switch ($gameName) {
                         
                     case 'Overwatch':
-                        $game = new Gamepus\Blizzard\Overwatch($DB, $gameId);
+                        $checkDb = $Db->exec('SELECT gameOverwatchId FROM gameOverwatch WHERE playerId = ?', $DbPlayer['id']);
+                        if (sizeof($checkDb) == 1) {
+                            $game = new Gamepus\Blizzard\Overwatch($DB, $gameId);
+                        }
                     break;
 
                     case 'LeagueOfLegends':
-                        $game = new Gamepus\Riot\LeagueOfLegends($DB, $gameId, $f3->get('CONF_LOL_API_KEY'));
+                        $checkDb = $Db->exec('SELECT gameLeagueOfLegendsId FROM gameLeagueOfLegends WHERE playerId = ?', $DbPlayer['id']);
+                        if (sizeof($checkDb) == 1) {
+                            $game = new Gamepus\Blizzard\Overwatch($DB, $gameId);
+                        }
                     break;
                 }
 
