@@ -38,6 +38,25 @@ $f3->set('MyTeamSpeak', $MyTeamSpeak);
 // check if have a valid session
 if ( $f3->get('SESSION.userId') > 0 ) {
     
+    
+    $f3->route('POST /UserSave',
+        function (\Base $f3){
+            $Db = $f3->get('Db');
+            
+            if (strlen($f3->get('REQUEST.password')) >= 8) {
+                $Db->exec('UPDATE users SET password = ? WHERE id = ?', array(md5($f3->get('REQUEST.password')), $f3->get('SESSION.userId') ));
+                $f3->set('SESSION.profilePasswordUpdate', true);
+            }
+            
+            if (strlen($f3->get('REQUEST.email')) >= 3) {
+                $Db->exec('UPDATE users SET email = ? WHERE id = ?', array($f3->get('REQUEST.email'), $f3->get('SESSION.userId') ));
+                $f3->set('SESSION.profileEmailUpdate', true);
+            }
+            
+            $f3->reroute('/Profile');
+        }  
+    );
+    
     $f3->route('POST /PlayerSave',
         function ($f3){
             $Db = $f3->get('Db');
@@ -78,6 +97,8 @@ if ( $f3->get('SESSION.userId') > 0 ) {
             echo \Template::instance()->render('../templates/gp_fancy/index.html');
             $f3->clear('SESSION.profilesaveok');
             $f3->clear('SESSION.profilesaveerror');
+            $f3->clear('SESSION.profileEmailUpdate');
+            $f3->clear('SESSION.profilePasswordUpdate');
         }
     );
     

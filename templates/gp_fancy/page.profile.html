@@ -3,13 +3,24 @@
     
     <div class="container container-row panel panel-default">
         <h2>Edit user profile</h2>
-        <check if="{{ @SESSION.usersave=='false' }}">
+        
+        
+        <check if="{{ @SESSION.profileEmailUpdate=='true' }}">
             <true>
-                <div class="alert alert-danger">
-                    <strong>Error!</strong> It seems your E-Mailaddress is already taken, sorry! Please take another one ;)
+                <div class="alert alert-success">
+                    <strong>Success!</strong> Your email address was successfully updated.
                 </div>
             </true>
         </check>
+        
+        <check if="{{ @SESSION.profilePasswordUpdate=='true' }}">
+            <true>
+                <div class="alert alert-success">
+                    <strong>Success!</strong> Your password was successfully updated.
+                </div>
+            </true>
+        </check>
+        
         <form class="form-horizontal" action="/UserSave" method="POST" data-toggle="validator">
             <div class="form-group">
                 <label class="control-label col-sm-3" for="email">E-Mail:</label>
