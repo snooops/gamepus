@@ -297,10 +297,10 @@ else {
                     $smtp->set('Errors-to', '<snooops84@gmail.com>');
                     $smtp->set('To', $DataDb[0]['username'] .' <'. $f3->get('REQUEST.email') .'>');
                     $smtp->set('Subject', 'Gamepus - your Password Reset');
-                    $message = 'Hi '.$DataDb[0]['username'].','
-                            . 'your new password is:'.$newPassword
-                            . 'you can now proceed and login.'
-                            . 'Best regards'
+                    $message = 'Hi '.$DataDb[0]['username'].',' ."\n"
+                            . 'your new password is: '.$newPassword."\n"
+                            . 'you can now proceed and login.'."\n"
+                            . 'Best regards'."\n"
                             . 'Your Gamepus Team';
                     $smtp->send($message);
                 }
