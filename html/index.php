@@ -302,7 +302,8 @@ else {
                             . 'you can now proceed and login.'."\n"
                             . 'Best regards'."\n"
                             . 'Your Gamepus Team';
-                    $smtp->send($message);
+                    $smtp->send($message); 
+                    
                 }
                 $f3->set('SESSION.resetPassword', 'true');
                 $f3->reroute('/');
