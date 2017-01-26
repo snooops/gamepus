@@ -26,7 +26,6 @@ $Log->setupChannelMySQL($Db);
 $f3->set('Log',$Log);
 
 // initializing Teamspeak3 connection
-//require('../vendor/fkubis/teamspeak-php-framework/TeamSpeak3/TeamSpeak3.php');
 $tslogin = sprintf('serverquery://%s:%s@%s/?server_port=%u', $CONF_TS3_USER, $CONF_TS3_PASS, $CONF_TS3_ADDRESS, $CONF_TS3_VSERVERPORT, $CONF_TS3_VSERVERPORT);
 $TS3 = \TeamSpeak3\TeamSpeak3::factory($tslogin);
 $MyTeamSpeak = new Gamepus\MyTeamSpeak($TS3);

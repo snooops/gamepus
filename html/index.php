@@ -163,7 +163,7 @@ if ( $f3->get('SESSION.userId') > 0 ) {
             
             // we have allready a player for this user
             if ( sizeof($DbPlayer) == 1 ) {
-                $DbGames = $Db->exec('SELECT games.gameId, games.gameVendor, games.gameName FROM player2games LEFT JOIN games ON player2games.gameId = games.gameId WHERE player2games.playerId = ?', $f3->get('SESSION.userId'));
+                $DbGames = $Db->exec('SELECT gameId, gameVendor, gameName FROM games');
                 $f3->set('DbGames', $DbGames);
                 
                 foreach ($DbGames as $i => $game){
@@ -173,6 +173,7 @@ if ( $f3->get('SESSION.userId') > 0 ) {
                             $LoLData = array();
                             $LoL = new \Gamepus\Riot\LeagueOfLegends($Db, $game['gameId'], $f3->get('CONF_LOL_API_KEY'));
                             $f3->set('LoLData', $LoL->getPlayerData($f3->get('SESSION.playerId')));
+                            var_dump($f3->get('LoLData'));
                             $LoLData = $LoL->getPlayerData($f3->get('SESSION.playerId'));
                             switch ($LoLData['server']){
                                 case 'euw':

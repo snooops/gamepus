@@ -71,19 +71,6 @@ DELETE FROM `logger`;
 /*!40000 ALTER TABLE `logger` DISABLE KEYS */;
 /*!40000 ALTER TABLE `logger` ENABLE KEYS */;
 
--- Exportiere Struktur von Tabelle development.player2games
-CREATE TABLE IF NOT EXISTS `player2games` (
-  `playerId` int(10) unsigned DEFAULT NULL,
-  `gameId` int(10) unsigned DEFAULT NULL,
-  KEY `playerId` (`playerId`),
-  KEY `gameId` (`gameId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- Exportiere Daten aus Tabelle development.player2games: ~0 rows (ungefähr)
-DELETE FROM `player2games`;
-/*!40000 ALTER TABLE `player2games` DISABLE KEYS */;
-/*!40000 ALTER TABLE `player2games` ENABLE KEYS */;
-
 -- Exportiere Struktur von Tabelle development.players
 CREATE TABLE IF NOT EXISTS `players` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
