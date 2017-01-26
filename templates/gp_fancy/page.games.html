@@ -1,8 +1,6 @@
     
     <h1>Games</h1>
-    <div class="alert alert-info">
-        <strong>Info!</strong> You can enter your Game data here and Gamepus will update your Teamspeak Server group assignment every 30 Minutes.
-    </div>
+    
     
     <check if="{{ @error_noplayerdefined=='true' }}">
         <true>
@@ -10,27 +8,33 @@
                 <strong>Error!</strong> You dont have setup a player for yourself yet, please head to the <a href="/Profile">profile section</a> and do it.
             </div>
         </true>
+        <false>
+            <div class="alert alert-info">
+                <strong>Info!</strong> You can enter your Game data here and Gamepus will update your Teamspeak Server group assignment every 30 Minutes.
+            </div>
+            <div class="container-fluid">
+                <div class="row">
+
+                    <div class="col-sm-4">
+                        <div class="panel panel-default">
+                            <div class="panel-heading"><h4>Overwatch</h4></div>
+                            <div class="panel-body">
+                                <include href="../templates/gp_fancy/page.games.overwatch.html" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="panel panel-default">
+                            <div class="panel-heading"><h4>League of Legends</h4></div>
+                            <div class="panel-body">
+                                <include href="../templates/gp_fancy/page.games.lol.html" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </false>
     </check>
     
-    <div class="container-fluid">
-        <div class="row">
-            
-            <div class="col-sm-4">
-                <div class="panel panel-default">
-                    <div class="panel-heading"><h4>Overwatch</h4></div>
-                    <div class="panel-body">
-                        <include href="../templates/gp_fancy/page.games.overwatch.html" />
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-sm-4">
-                <div class="panel panel-default">
-                    <div class="panel-heading"><h4>League of Legends</h4></div>
-                    <div class="panel-body">
-                        <include href="../templates/gp_fancy/page.games.lol.html" />
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    
